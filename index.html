@@ -1,1 +1,486 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coming Soon — Now Screening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:       #0a0806;
+    --velvet:     #5c1220;
+    --velvet-dk:  #360b13;
+    --marquee:    #d1a13b;
+    --marquee-lt: #f2d68a;
+    --cream:      #ece1c8;
+    --spotlight:  #fff6df;
+    --ash:        #7a6d5a;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{
+    height:100%;
+    background:var(--void);
+    color:var(--cream);
+    font-family:'EB Garamond', serif;
+    overflow-x:hidden;
+  }
+
+  body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+
+  /* ---------- atmospheric layers ---------- */
+
+  #grain{
+    position:fixed; inset:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    z-index:5;
+    opacity:0.05;
+    mix-blend-mode:overlay;
+  }
+
+  .vignette{
+    position:fixed; inset:0;
+    z-index:4;
+    pointer-events:none;
+    background:radial-gradient(ellipse at 50% 42%, transparent 0%, transparent 30%, rgba(0,0,0,0.55) 78%, rgba(0,0,0,0.92) 100%);
+  }
+
+  .spotlight{
+    position:fixed;
+    top:-20%; left:50%;
+    width:140vw; height:140vw;
+    transform:translateX(-50%);
+    background:radial-gradient(circle, rgba(255,246,223,0.09) 0%, rgba(255,246,223,0.03) 32%, transparent 60%);
+    pointer-events:none;
+    z-index:1;
+    animation:flicker 7s ease-in-out infinite;
+  }
+
+  @keyframes flicker{
+    0%,100%{ opacity:1; }
+    45%{ opacity:0.85; }
+    47%{ opacity:1; }
+    72%{ opacity:0.9; }
+  }
+
+  .scratches{
+    position:fixed; inset:0;
+    z-index:6;
+    pointer-events:none;
+    opacity:0.5;
+  }
+
+  /* ---------- curtains ---------- */
+
+  .curtain{
+    position:fixed;
+    top:0; height:100vh;
+    width:16vw;
+    min-width:120px;
+    z-index:3;
+    background:
+      repeating-linear-gradient(90deg,
+        var(--velvet) 0px, var(--velvet-dk) 18px, var(--velvet) 36px);
+    box-shadow: 0 0 60px 10px rgba(0,0,0,0.6) inset;
+  }
+  .curtain.left{ left:0; border-right:3px solid #2a080e; transform-origin:left; animation:pullLeft 2.4s cubic-bezier(.6,0,.2,1) 0.3s both; }
+  .curtain.right{ right:0; border-left:3px solid #2a080e; transform-origin:right; animation:pullRight 2.4s cubic-bezier(.6,0,.2,1) 0.3s both; }
+
+  @keyframes pullLeft{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-72%); }
+  }
+  @keyframes pullRight{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(72%); }
+  }
+
+  .curtain::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.4), transparent 12%, transparent 88%, rgba(0,0,0,0.5));
+  }
+
+  /* ---------- marquee bulbs ---------- */
+
+  .marquee-frame{
+    position:relative;
+    z-index:10;
+    padding:2.2rem 3rem;
+    text-align:center;
+    max-width:720px;
+    width:92vw;
+  }
+
+  .bulb-row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:1.6rem;
+  }
+  .bulb-row.bottom{ margin-bottom:0; margin-top:1.8rem; }
+
+  .bulb{
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--marquee);
+    box-shadow:0 0 6px 2px rgba(209,161,59,0.4);
+    animation:chase 1.6s steps(1) infinite;
+  }
+
+  @keyframes chase{
+    0%,49%{ background:var(--marquee-lt); box-shadow:0 0 9px 3px rgba(242,214,138,0.85); }
+    50%,100%{ background:#4a3a18; box-shadow:none; }
+  }
+
+  .eyebrow{
+    font-family:'Bebas Neue', sans-serif;
+    letter-spacing:0.55em;
+    font-size:0.72rem;
+    color:var(--ash);
+    margin-bottom:0.9rem;
+  }
+
+  h1{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(3rem, 11vw, 6.4rem);
+    letter-spacing:0.06em;
+    line-height:0.95;
+    color:var(--spotlight);
+    text-shadow:
+      0 0 18px rgba(255,246,223,0.35),
+      0 0 46px rgba(255,246,223,0.12);
+  }
+
+  .subtitle{
+    font-style:italic;
+    color:var(--ash);
+    font-size:1.05rem;
+    margin-top:0.8rem;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- countdown leader ---------- */
+
+  .leader-wrap{
+    display:flex;
+    justify-content:center;
+    margin:2.6rem 0 2.2rem;
+  }
+
+  .leader{
+    position:relative;
+    width:150px; height:150px;
+  }
+
+  .leader svg{ width:100%; height:100%; transform:rotate(-90deg); }
+
+  .leader circle.track{
+    fill:none;
+    stroke:rgba(236,225,200,0.14);
+    stroke-width:1.5;
+  }
+  .leader circle.sweep{
+    fill:none;
+    stroke:var(--marquee-lt);
+    stroke-width:1.5;
+    stroke-dasharray:439.8;
+    stroke-linecap:round;
+    filter:drop-shadow(0 0 4px rgba(242,214,138,0.7));
+  }
+
+  .leader-label{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue', sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.28em;
+    color:var(--cream);
+    text-align:center;
+    line-height:1.5;
+  }
+  .leader-label span{ display:block; }
+  .leader-label .num{ font-size:1.5rem; color:var(--marquee-lt); letter-spacing:0.02em; }
+
+  .countdown-units{
+    display:flex;
+    gap:1.9rem;
+    justify-content:center;
+    margin-top:0.6rem;
+  }
+  .unit{ text-align:center; }
+  .unit .n{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.5rem;
+    color:var(--cream);
+  }
+  .unit .u{
+    font-size:0.62rem;
+    letter-spacing:0.2em;
+    color:var(--ash);
+    text-transform:uppercase;
+  }
+
+  /* ---------- ticket form ---------- */
+
+  form{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    margin-top:0.4rem;
+    flex-wrap:wrap;
+  }
+
+  .ticket{
+    display:flex;
+    background:transparent;
+    border:1px dashed rgba(236,225,200,0.4);
+    border-radius:2px;
+    overflow:hidden;
+    max-width:420px;
+    width:100%;
+  }
+
+  input[type=email]{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    padding:0.85rem 1rem;
+    color:var(--cream);
+    font-family:'EB Garamond', serif;
+    font-size:1rem;
+    font-style:italic;
+  }
+  input[type=email]::placeholder{ color:var(--ash); }
+
+  button{
+    font-family:'Bebas Neue', sans-serif;
+    letter-spacing:0.14em;
+    font-size:0.85rem;
+    background:var(--velvet);
+    color:var(--marquee-lt);
+    border:none;
+    border-left:1px dashed rgba(236,225,200,0.4);
+    padding:0 1.5rem;
+    cursor:pointer;
+    transition:background 0.25s ease, color 0.25s ease;
+  }
+  button:hover{ background:var(--marquee-lt); color:var(--velvet-dk); }
+  button:focus-visible, input:focus-visible{ outline:2px solid var(--marquee-lt); outline-offset:2px; }
+
+  .stub-msg{
+    margin-top:1rem;
+    font-style:italic;
+    color:var(--marquee-lt);
+    font-size:0.95rem;
+    min-height:1.4em;
+  }
+
+  .reel-footer{
+    margin-top:2.4rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.6rem;
+    color:var(--ash);
+    font-size:0.7rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+  }
+
+  .reel{
+    width:20px; height:20px;
+    animation:spin 3.5s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  @media (max-width:640px){
+    .curtain{ width:10vw; min-width:60px; }
+    .countdown-units{ gap:1.2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+  <canvas id="grain"></canvas>
+  <div class="vignette"></div>
+  <div class="spotlight"></div>
+  <svg class="scratches" id="scratches" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+
+  <main class="marquee-frame">
+    <div class="bulb-row" id="bulbsTop"></div>
+
+    <p class="eyebrow">Now In Production</p>
+    <h1>Coming&nbsp;Soon</h1>
+
+    <div class="leader-wrap">
+      <div class="leader">
+        <svg viewBox="0 0 150 150">
+          <circle class="track" cx="75" cy="75" r="70"></circle>
+          <circle class="sweep" id="sweep" cx="75" cy="75" r="70"></circle>
+        </svg>
+        <div class="leader-label">
+          <span class="num" id="daysNum">--</span>
+          <span>days left</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="countdown-units">
+      <div class="unit"><div class="n" id="hrs">00</div><div class="u">Hrs</div></div>
+      <div class="unit"><div class="n" id="min">00</div><div class="u">Min</div></div>
+      <div class="unit"><div class="n" id="sec">00</div><div class="u">Sec</div></div>
+    </div>
+
+    <p class="stub-msg" id="stubMsg" role="status"></p>
+
+    <div class="bulb-row bottom" id="bulbsBottom"></div>
+
+    <div class="reel-footer">
+      <svg class="reel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="7" r="1.6"/>
+        <circle cx="16.5" cy="10" r="1.6"/>
+        <circle cx="14.8" cy="15.5" r="1.6"/>
+        <circle cx="9.2" cy="15.5" r="1.6"/>
+        <circle cx="7.5" cy="10" r="1.6"/>
+      </svg>
+      <span>Est. release — projected soon</span>
+    </div>
+  </main>
+
+<script>
+  // ---------- marquee bulbs ----------
+  function buildBulbs(id, count){
+    const row = document.getElementById(id);
+    for(let i=0;i<count;i++){
+      const b = document.createElement('div');
+      b.className = 'bulb';
+      b.style.animationDelay = (i * 0.08) + 's';
+      row.appendChild(b);
+    }
+  }
+  buildBulbs('bulbsTop', 16);
+  buildBulbs('bulbsBottom', 16);
+
+  // ---------- film scratches (subtle random vertical marks) ----------
+  (function scratches(){
+    const svg = document.getElementById('scratches');
+    const ns = 'http://www.w3.org/2000/svg';
+    const w = window.innerWidth, h = window.innerHeight;
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    for(let i=0;i<6;i++){
+      const x = Math.random()*w;
+      const line = document.createElementNS(ns,'line');
+      line.setAttribute('x1', x);
+      line.setAttribute('x2', x + (Math.random()*6-3));
+      line.setAttribute('y1', 0);
+      line.setAttribute('y2', h);
+      line.setAttribute('stroke', 'rgba(255,255,255,0.06)');
+      line.setAttribute('stroke-width', Math.random()*1.2+0.3);
+      svg.appendChild(line);
+    }
+  })();
+
+  // ---------- film grain noise ----------
+  (function grain(){
+    const canvas = document.getElementById('grain');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    function resize(){
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function draw(){
+      const imgData = ctx.createImageData(w, h);
+      const buf = imgData.data;
+      for(let i=0; i<buf.length; i+=4){
+        const v = Math.random()*255;
+        buf[i] = buf[i+1] = buf[i+2] = v;
+        buf[i+3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+    let last = 0;
+    function loop(t){
+      if(t - last > 90){ draw(); last = t; }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  // ---------- countdown ----------
+  (function countdown(){
+    // launch date: 21 days from page load, at 20:00 local time
+    const launch = new Date();
+    launch.setDate(launch.getDate() + 21);
+    launch.setHours(20, 0, 0, 0);
+
+    const totalMs = launch.getTime() - Date.now();
+    const totalDays = Math.max(1, Math.ceil(totalMs / 86400000));
+
+    const sweep = document.getElementById('sweep');
+    const CIRC = 439.8;
+
+    function tick(){
+      const now = Date.now();
+      const diff = Math.max(0, launch.getTime() - now);
+
+      const days = Math.floor(diff / 86400000);
+      const hrs  = Math.floor((diff % 86400000) / 3600000);
+      const min  = Math.floor((diff % 3600000) / 60000);
+      const sec  = Math.floor((diff % 60000) / 1000);
+
+      document.getElementById('daysNum').textContent = days;
+      document.getElementById('hrs').textContent = String(hrs).padStart(2,'0');
+      document.getElementById('min').textContent = String(min).padStart(2,'0');
+      document.getElementById('sec').textContent = String(sec).padStart(2,'0');
+
+      const progress = 1 - (diff / (totalDays * 86400000));
+      const offset = CIRC * (1 - Math.min(1, Math.max(0, progress)));
+      sweep.style.strokeDashoffset = offset;
+
+      if(diff <= 0){ clearInterval(interval); }
+    }
+    sweep.style.strokeDasharray = CIRC;
+    tick();
+    const interval = setInterval(tick, 1000);
+  })();
+
+  // ---------- ticket form ----------
+  document.getElementById('ticketForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value.trim();
+    const msg = document.getElementById('stubMsg');
+    if(!email){
+      msg.textContent = 'One email, please — the box office needs it.';
+      return;
+    }
+    msg.textContent = `Ticket reserved for ${email}. See you at the premiere.`;
+    document.getElementById('emailInput').value = '';
+  });
+</script>
+</body>
+</html>
